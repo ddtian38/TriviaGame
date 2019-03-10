@@ -1,0 +1,40 @@
+body{
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+}
+
+
+h1{
+    text-align: center;
+    size: 1.5rem;
+    margin-bottom: 50px;
+}
+
+.quiz-content{
+    border: 5px solid black;
+    margin: 100px;
+}
+
+
+#timer, #question, #answerChoices li{
+
+    text-align: center;
+    
+}
+
+#question{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#answerChoices li:hover{
+
+    color: red;
+}
+
+
+button{
+    margin-left: 40%;
+    justify-content: center;
+}
