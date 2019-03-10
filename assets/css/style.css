@@ -14,16 +14,17 @@ h1{
 .quiz-content{
     border: 5px solid black;
     margin: 100px;
+    text-align: center;
 }
 
 
-#timer, #question, #answerChoices li{
+/* #timer, #question, #answerChoices li, #status{
 
     text-align: center;
     
-}
+} */
 
-#question{
+#question, #status{
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -35,6 +36,5 @@ h1{
 
 
 button{
-    margin-left: 40%;
     justify-content: center;
 }
