@@ -1,18 +1,38 @@
-var quiz = {    length: 3,
-                q1: { question: "Who executed order 66?",
-                  answers: ["Palpatine", "Commander Cody", "Anakin Skywalker", "Yoda"],
-                  correct: "Palpatine"
+//Creating quiz object where questions, and answers are stored
+var quiz = {    length: 7,
+    q1:          { question: "Which passage is this verse from: \"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life\"",
+                  answers: ["John 3:16", "Roman 8:28", "Genesis  1:1", "Revelation 8:20"],
+                  correct: "John 3:16"
                 },
-    q2:         { question: "Who was the first regimental leader of the 501st Legion?",
-                    answers: ["Captain Rex", "Anakin SkyWalker", "Commander Appo", "Captain Wolf"],
-                    correct: "Captain Rex"
+    q2:         {   question: "Which of the following is not one of the twelve tribes of Israel?",
+                    answers: ["Dan", "Levi", "Benjamin", "Ammonites"],
+                    correct: "Ammonites"
                 },
-    q3:         { question: "Who denied Anakin the rank of Jedi Master?",
-                    answers: ["Obi-Wan", "Eeth Koth", "Mace Windu", "Shaak Ti"],
-                    correct: "Mace Windu"
-                }
-};
+    q3:         {   question: "What was Israel's other name?",
+                    answers: ["Esul", "Jacob", "Abraham", "Adam"],
+                    correct: "Jacob"
+                },
+    q4:         {   question: "Matthew was a _________. ",
+                    answers: ["Tax Collector", "Roman Centurion", "Prophet", "Gentile"],
+                     correct: "Tax Collector"
+                },
+    q5:        { question: "To what city was Saul traveling when he encountered a great and blinding light?",
+                    answers:["Rome", "Damascus", "Jerusalum", "Athens"],
+                    correct: "Damascus"
+                },
 
+    q6:         { question: "Who is Stephen in Acts of the Apostles?",
+                  answers: ["The first Christian martyr", "The first Christian disciple", "The first disciple to abandon Jesus", "The author of the Book of Stephen"],
+                  correct:"The first Christian martyr"
+                },
+    q7:         {question: "Who is the first apostle to deny Jesus?",
+                answers: ["Mark", "Judas", "John", "Peter"],
+                correct: "Peter"
+
+                }
+
+};
+//Declaring and initlizing global variables
 var qNum = 1;
 var quizContent = document.querySelector(".quiz-content");
 var second, timerElement, question, answers, choices, answerIsCorrect, timeIsOut, intervalId, right = 0, wrong = 0, unanswered = 0;
@@ -23,11 +43,11 @@ function countDown(){
     timerElement.textContent = "Time Remaining: " + seconds + " seconds.";
     if(seconds === 0){
         timeIsOut = true;
-        console.log("in count down");
         displayAfterAnswer(false, timeIsOut);
     }
 }
 
+//Function adds questions after the user has press start and also answer questions
 function addQuestion() {
     seconds = 30;
 
@@ -67,19 +87,18 @@ function addQuestion() {
     
     for(var i = 0; i < choices.length; i++){
             choices[i].addEventListener("click", function(){
-
-            console.log("User has selected a choice.");
             answerIsCorrect = checkAnswerIsCorrect(this.textContent);
             displayAfterAnswer(answerIsCorrect)        
            })
      }
 }
 
-
+//Checks if the answers is correct
 function checkAnswerIsCorrect(choice){
     return  choice === quiz["q"+qNum].correct;
 }
 
+//Function displays if the user has answered the question correctly, incorrectly, or not at all
 function displayAfterAnswer(a, t = false){
 
     clearInterval(intervalId);
@@ -111,6 +130,7 @@ function displayAfterAnswer(a, t = false){
     quizContent.appendChild(status);
     qNum++;
 
+    //After five seconds, the next question will be added
     setTimeout(function(){
         document.querySelector("#timer").remove();
         document.querySelector("#status").remove();
@@ -118,6 +138,7 @@ function displayAfterAnswer(a, t = false){
     }, 5000);
 }
 
+//Function displays final retuls
 function displayFinalResult(){
     var resultTitle = document.createElement("h4");
     resultTitle.setAttribute("id", "result-title");
@@ -136,15 +157,11 @@ function displayFinalResult(){
 
     var unansweredResults = document.createElement("p");
     unansweredResults.setAttribute("id", "unanswered");
-    var unansweredResultsText = document.createTextNode("Unanswered: " + wrong);
+    var unansweredResultsText = document.createTextNode("Unanswered: " + unanswered);
     unansweredResults.appendChild(unansweredResultsText);
 
     var startOverButton = document.createElement("button");
-
-    startOverButtonAttr = [".btn", ".btn-dark"];
-    for (var ele in startOverButtonAttr){
-        startOverButton.setAttribute("class", startOverButtonAttr[ele])
-    }
+    startOverButton.setAttribute("class", "btn btn-dark");
 
     startOverButton.setAttribute("id", "restart")
     var startOverButtonText = document.createTextNode("Start Over?");
@@ -154,19 +171,13 @@ function displayFinalResult(){
     for (var i in resultElements){
         quizContent.appendChild(resultElements[i]);
     }
-    
-    // quizContent.appendChild(resultTitle);
-    // quizContent.appendChild(winResults);
-    // quizContent.appendChild(lossResults);
-    // quizContent.appendChild(unansweredResults);
-    // quizContent.appendChild(startOverButton);
-
+    //Restart button is created.
    document.querySelector("#restart").addEventListener("click", reset)
 
 }
 
+//Reset function to start the quiz over
 function reset(){
-        
     var resultContentsId = ["result-title", "wins", "losses", "unanswered", "restart"];
     for (var ele in resultContentsId){
         document.querySelector("#"+resultContentsId[ele]).remove();
@@ -178,13 +189,8 @@ function reset(){
     seconds = 30;
     qNum = 1;
     addQuestion();
+
 }
-
-
-
-
-
-
 
 //Start of main program
 document.querySelector(".btn").addEventListener("click", function(){

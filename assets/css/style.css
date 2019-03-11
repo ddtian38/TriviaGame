@@ -1,7 +1,11 @@
 body{
     margin: 0 auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, 'Geneva', Verdana, sans-serif;
+    color: white;
     font-size: 20px;
+    background: url("../images/bible.jpg");
+    background-size: cover;
+    background-repeat: no-repeat
 }
 
 
@@ -12,21 +16,15 @@ h1{
 }
 
 .quiz-content{
-    border: 5px solid black;
+
     margin: 100px;
     text-align: center;
 }
 
 
-/* #timer, #question, #answerChoices li, #status{
-
-    text-align: center;
-    
-} */
-
-#question, #status{
-    margin-top: 10px;
-    margin-bottom: 10px;
+#question, #status, #answerChoices li, #wins, #losses, #unanswered{
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 #answerChoices li:hover{
