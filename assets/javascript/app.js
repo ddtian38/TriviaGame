@@ -82,9 +82,11 @@ function addQuestion() {
     }
     quizContent.appendChild(answers);
     choices = document.querySelectorAll(".answer");
-
+    
+    //Start counting down the seconds
     intervalId = setInterval(countDown, 1000);
     
+    //Event listener waits for user to select an answer.
     for(var i = 0; i < choices.length; i++){
             choices[i].addEventListener("click", function(){
             answerIsCorrect = checkAnswerIsCorrect(this.textContent);
@@ -98,27 +100,33 @@ function checkAnswerIsCorrect(choice){
     return  choice === quiz["q"+qNum].correct;
 }
 
-//Function displays if the user has answered the question correctly, incorrectly, or not at all
+//Function displays if the user has answered the question correctly, incorrectly, or not at all. Takes two argument: "a" is a boolean checking if the user answered the question correctly and "t" is boolean if the user has run out of time.
 function displayAfterAnswer(a, t = false){
 
+    //Clearing the count down function to prevent calling the countDown() twice.
     clearInterval(intervalId);
 
+    //Creating status to notify the user if he has answered correct or incorrectly.
     var status = document.createElement("p");
     status.setAttribute("id", "status")
     var statusText;
     document.getElementById("question").remove();
     document.querySelector("#answerChoices").remove();
 
+    //If the user answered correctly.
     if (a){
         statusText = document.createTextNode("Correct!");
         right++;    
     }
+    //If the user answered incorrectly.
     else{
+            //If the user has run out of time
         if(t){
             statusText = document.createTextNode("Out of time. \n The correct answer is " + quiz["q"+qNum].correct + ".");   
             unanswered++;   
             console.log("adding unanswered")
         }
+         //If the user did not run out of time
         else{
             statusText = document.createTextNode("Incorrect! \n The correct answer is " + quiz["q"+qNum].correct + ".");
             wrong++;
