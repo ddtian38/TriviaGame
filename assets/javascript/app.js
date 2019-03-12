@@ -56,51 +56,31 @@ function addQuestion() {
        return;
     }
 
-    timerElement = $("<p id=\"timer\">").text("Time Remaining: " + seconds + " seconds.");//timerElement = document.createElement("p");
-    // var textNode = document.createTextNode("Time Remaining: " + seconds + " seconds.");
-    // timerElement.setAttribute("id", "timer");
-    // timerElement.appendChild(textNode);
+    timerElement = $("<p id=\"timer\">").text("Time Remaining: " + seconds + " seconds.");
     quizContent.append(timerElement);
 
     //Creating question HTML elements
-    // question = document.createElement("p");
-    // textNode = document.createTextNode(quiz["q"+qNum].question);
-    // question.setAttribute("id", "question");
-    // question.appendChild(textNode);
     question = $("<p id=\"question\">").text(quiz["q"+qNum].question)
     quizContent.append(question);
 
     //Creating answer HTML elements. Assigns answer choices in the ul element
-    // answers = document.createElement("ul");
-    // answers.setAttribute("id", "answerChoices");
     answers = $("<ul id = \"answerChoices\">")
 
     for (var i = 0; i < quiz["q"+qNum].answers.length; i++){
-        // var a = document.createElement("li");
-        // textNode = document.createTextNode(quiz["q"+qNum].answers[i]);
-        // a.setAttribute("class", "answer");
-        // a.appendChild(textNode);
-        // answers.appendChild(a);
         var a = $("<li>").addClass("answer").text(quiz["q"+qNum].answers[i]);
         answers.append(a);
     }
-    // quizContent.appendChild(answers);
-    // choices = document.querySelectorAll(".answer");
+
     quizContent.append(answers);
     choices = $(".answer");
 
     //Start counting down the seconds
     intervalId = setInterval(countDown, 1000);
     
-    //Event listener waits for user to select an answer.
-    // for(var i = 0; i < choices.length; i++){
-    //         choices[i].addEventListener("click", function(){
-    //         answerIsCorrect = checkAnswerIsCorrect(this.textContent);
-    //         displayAfterAnswer(answerIsCorrect)        
-    //        })
-    //  }
+   
 }
 
+ //Event listener waits for user to select an answer.
 $(document).on("click", ".answer", function(){
     answerIsCorrect = checkAnswerIsCorrect($(this).text());
     displayAfterAnswer(answerIsCorrect)
@@ -119,12 +99,6 @@ function displayAfterAnswer(a, t = false){
     //Clearing the count down function to prevent calling the countDown() twice.
     clearInterval(intervalId);
 
-    //Creating status to notify the user if he has answered correct or incorrectly.
-    // var status = document.createElement("p");
-    // status.setAttribute("id", "status")
-    // var statusText;
-    // document.getElementById("question").remove();
-    // document.querySelector("#answerChoices").remove();
     var status = $("<p id=\"status\">");
     var statusText;
     $("#question").remove();
@@ -166,39 +140,17 @@ function displayAfterAnswer(a, t = false){
 
 //Function displays final retuls
 function displayFinalResult(){
-    // var resultTitle = document.createElement("h4");
-    // resultTitle.setAttribute("id", "result-title");
-    // var resultTitleText = document.createTextNode("Well Done! Here's are your result.");
-    // resultTitle.appendChild(resultTitleText);
+
     var resultTitle = $("<h4 id=\"result-title\">").text("Well Done! Here's are your result.")
 
-    // var winResults = document.createElement("p");
-    // winResults.setAttribute("id", "wins");
-    // var winResultsText = document.createTextNode("Correct: " + right);
-    // winResults.appendChild(winResultsText);
 
     var winResults = $("<p id=\"wins\">").text("Correct: " + right)
 
-    // var lossResults = document.createElement("p");
-    // lossResults.setAttribute("id", "losses");
-    // var lossResultsText = document.createTextNode("Incorrect: " + wrong);
-    // lossResults.appendChild(lossResultsText);
 
     var lossResults = $("<p id=\"losses\">").text("Incorrect: " + wrong);
 
-
-    // var unansweredResults = document.createElement("p");
-    // unansweredResults.setAttribute("id", "unanswered");
-    // var unansweredResultsText = document.createTextNode("Unanswered: " + unanswered);
-    // unansweredResults.appendChild(unansweredResultsText);
-
     var unansweredResults = $("<p id=\"unanswered\">").text("Unanswered: " + unanswered);
 
-    // var startOverButton = document.createElement("button");
-    // startOverButton.setAttribute("class", "btn btn-dark");
-    // startOverButton.setAttribute("id", "restart")
-    // var startOverButtonText = document.createTextNode("Start Over?");
-    // startOverButton.appendChild(startOverButtonText);
 
     var startOverButton = $("<button id=\"restart\">").addClass("btn").addClass("btn-dark").text("Start Over");
 
@@ -207,14 +159,17 @@ function displayFinalResult(){
         quizContent.append(resultElements[i]);
     }
 
-    //Restart button is created.
-//    document.querySelector("#restart").addEventListener("click", reset);
-   $(document).on("click", "#restart", function(){
+  
+
+
+}
+
+//Restart button is created.
+$(document).on("click", "#restart", function(){
     var resultContentsId = ["result-title", "wins", "losses", "unanswered", "restart"];
     for (var ele in resultContentsId){
         $("#"+resultContentsId[ele]).remove();
     }
-
     right = 0;
     wrong = 0;
     unanswered = 0;
@@ -224,23 +179,7 @@ function displayFinalResult(){
 
    })
 
-}
 
-//Reset function to start the quiz over
-// function reset(){
-//     var resultContentsId = ["result-title", "wins", "losses", "unanswered", "restart"];
-//     for (var ele in resultContentsId){
-//         document.querySelector("#"+resultContentsId[ele]).remove();
-//     }
-
-//     right = 0;
-//     wrong = 0;
-//     unanswered = 0;
-//     seconds = 30;
-//     qNum = 1;
-//     addQuestion();
-
-// }
 
 //Start of main program
 $(document).ready(function(){
