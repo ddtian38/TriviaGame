@@ -34,13 +34,13 @@ var quiz = {    length: 7,
 };
 //Declaring and initlizing global variables
 var qNum = 1;
-var quizContent = document.querySelector(".quiz-content");
+var quizContent = $(".quiz-content");
 var second, timerElement, question, answers, choices, answerIsCorrect, timeIsOut, intervalId, right = 0, wrong = 0, unanswered = 0;
 
 function countDown(){
     seconds--;
     console.log(seconds);
-    timerElement.textContent = "Time Remaining: " + seconds + " seconds.";
+    timerElement.text("Time Remaining: " + seconds + " seconds.");
     if(seconds === 0){
         timeIsOut = true;
         displayAfterAnswer(false, timeIsOut);
@@ -56,44 +56,57 @@ function addQuestion() {
        return;
     }
 
-    timerElement = document.createElement("p");
-    var textNode = document.createTextNode("Time Remaining: " + seconds + " seconds.");
-    timerElement.setAttribute("id", "timer");
-    timerElement.appendChild(textNode);
-    quizContent.appendChild(timerElement);
+    timerElement = $("<p id=\"timer\">").text("Time Remaining: " + seconds + " seconds.");//timerElement = document.createElement("p");
+    // var textNode = document.createTextNode("Time Remaining: " + seconds + " seconds.");
+    // timerElement.setAttribute("id", "timer");
+    // timerElement.appendChild(textNode);
+    quizContent.append(timerElement);
 
     //Creating question HTML elements
-    question = document.createElement("p");
-    textNode = document.createTextNode(quiz["q"+qNum].question);
-    question.setAttribute("id", "question");
-    question.appendChild(textNode);
-    quizContent.appendChild(question);
+    // question = document.createElement("p");
+    // textNode = document.createTextNode(quiz["q"+qNum].question);
+    // question.setAttribute("id", "question");
+    // question.appendChild(textNode);
+    question = $("<p id=\"question\">").text(quiz["q"+qNum].question)
+    quizContent.append(question);
 
     //Creating answer HTML elements. Assigns answer choices in the ul element
-    answers = document.createElement("ul");
-    answers.setAttribute("id", "answerChoices");
+    // answers = document.createElement("ul");
+    // answers.setAttribute("id", "answerChoices");
+    answers = $("<ul id = \"answerChoices\">")
 
     for (var i = 0; i < quiz["q"+qNum].answers.length; i++){
-        var a = document.createElement("li");
-        textNode = document.createTextNode(quiz["q"+qNum].answers[i]);
-        a.setAttribute("class", "answer");
-        a.appendChild(textNode);
-        answers.appendChild(a);
+        // var a = document.createElement("li");
+        // textNode = document.createTextNode(quiz["q"+qNum].answers[i]);
+        // a.setAttribute("class", "answer");
+        // a.appendChild(textNode);
+        // answers.appendChild(a);
+        var a = $("<li>").addClass("answer").text(quiz["q"+qNum].answers[i]);
+        answers.append(a);
     }
-    quizContent.appendChild(answers);
-    choices = document.querySelectorAll(".answer");
-    
+    // quizContent.appendChild(answers);
+    // choices = document.querySelectorAll(".answer");
+    quizContent.append(answers);
+    choices = $(".answer");
+
     //Start counting down the seconds
     intervalId = setInterval(countDown, 1000);
     
     //Event listener waits for user to select an answer.
-    for(var i = 0; i < choices.length; i++){
-            choices[i].addEventListener("click", function(){
-            answerIsCorrect = checkAnswerIsCorrect(this.textContent);
-            displayAfterAnswer(answerIsCorrect)        
-           })
-     }
+    // for(var i = 0; i < choices.length; i++){
+    //         choices[i].addEventListener("click", function(){
+    //         answerIsCorrect = checkAnswerIsCorrect(this.textContent);
+    //         displayAfterAnswer(answerIsCorrect)        
+    //        })
+    //  }
 }
+
+$(document).on("click", ".answer", function(){
+    answerIsCorrect = checkAnswerIsCorrect($(this).text());
+    displayAfterAnswer(answerIsCorrect)
+})
+
+
 
 //Checks if the answers is correct
 function checkAnswerIsCorrect(choice){
@@ -107,88 +120,99 @@ function displayAfterAnswer(a, t = false){
     clearInterval(intervalId);
 
     //Creating status to notify the user if he has answered correct or incorrectly.
-    var status = document.createElement("p");
-    status.setAttribute("id", "status")
+    // var status = document.createElement("p");
+    // status.setAttribute("id", "status")
+    // var statusText;
+    // document.getElementById("question").remove();
+    // document.querySelector("#answerChoices").remove();
+    var status = $("<p id=\"status\">");
     var statusText;
-    document.getElementById("question").remove();
-    document.querySelector("#answerChoices").remove();
+    $("#question").remove();
+    $("#answerChoices").remove();
+
 
     //If the user answered correctly.
     if (a){
-        statusText = document.createTextNode("Correct!");
+        statusText = "Correct!";
         right++;    
     }
     //If the user answered incorrectly.
     else{
             //If the user has run out of time
         if(t){
-            statusText = document.createTextNode("Out of time. \n The correct answer is " + quiz["q"+qNum].correct + ".");   
+            statusText = "Out of time. \n The correct answer is " + quiz["q"+qNum].correct + ".";   
             unanswered++;   
             console.log("adding unanswered")
         }
          //If the user did not run out of time
         else{
-            statusText = document.createTextNode("Incorrect! \n The correct answer is " + quiz["q"+qNum].correct + ".");
+            statusText = "Incorrect! \n The correct answer is " + quiz["q"+qNum].correct + ".";
             wrong++;
             console.log("adding wrong")
         }
     }
 
-    status.appendChild(statusText);
-    quizContent.appendChild(status);
+    status.text(statusText);
+    quizContent.append(status);
     qNum++;
 
     //After five seconds, the next question will be added
     setTimeout(function(){
-        document.querySelector("#timer").remove();
-        document.querySelector("#status").remove();
+        $("#timer").remove();
+        $("#status").remove();
         addQuestion();
     }, 5000);
 }
 
 //Function displays final retuls
 function displayFinalResult(){
-    var resultTitle = document.createElement("h4");
-    resultTitle.setAttribute("id", "result-title");
-    var resultTitleText = document.createTextNode("Well Done! Here's are your result.");
-    resultTitle.appendChild(resultTitleText);
+    // var resultTitle = document.createElement("h4");
+    // resultTitle.setAttribute("id", "result-title");
+    // var resultTitleText = document.createTextNode("Well Done! Here's are your result.");
+    // resultTitle.appendChild(resultTitleText);
+    var resultTitle = $("<h4 id=\"result-title\">").text("Well Done! Here's are your result.")
 
-    var winResults = document.createElement("p");
-    winResults.setAttribute("id", "wins");
-    var winResultsText = document.createTextNode("Correct: " + right);
-    winResults.appendChild(winResultsText);
+    // var winResults = document.createElement("p");
+    // winResults.setAttribute("id", "wins");
+    // var winResultsText = document.createTextNode("Correct: " + right);
+    // winResults.appendChild(winResultsText);
 
-    var lossResults = document.createElement("p");
-    lossResults.setAttribute("id", "losses");
-    var lossResultsText = document.createTextNode("Incorrect: " + wrong);
-    lossResults.appendChild(lossResultsText);
+    var winResults = $("<p id=\"wins\">").text("Correct: " + right)
 
-    var unansweredResults = document.createElement("p");
-    unansweredResults.setAttribute("id", "unanswered");
-    var unansweredResultsText = document.createTextNode("Unanswered: " + unanswered);
-    unansweredResults.appendChild(unansweredResultsText);
+    // var lossResults = document.createElement("p");
+    // lossResults.setAttribute("id", "losses");
+    // var lossResultsText = document.createTextNode("Incorrect: " + wrong);
+    // lossResults.appendChild(lossResultsText);
 
-    var startOverButton = document.createElement("button");
-    startOverButton.setAttribute("class", "btn btn-dark");
+    var lossResults = $("<p id=\"losses\">").text("Incorrect: " + wrong);
 
-    startOverButton.setAttribute("id", "restart")
-    var startOverButtonText = document.createTextNode("Start Over?");
-    startOverButton.appendChild(startOverButtonText);
+
+    // var unansweredResults = document.createElement("p");
+    // unansweredResults.setAttribute("id", "unanswered");
+    // var unansweredResultsText = document.createTextNode("Unanswered: " + unanswered);
+    // unansweredResults.appendChild(unansweredResultsText);
+
+    var unansweredResults = $("<p id=\"unanswered\">").text("Unanswered: " + unanswered);
+
+    // var startOverButton = document.createElement("button");
+    // startOverButton.setAttribute("class", "btn btn-dark");
+    // startOverButton.setAttribute("id", "restart")
+    // var startOverButtonText = document.createTextNode("Start Over?");
+    // startOverButton.appendChild(startOverButtonText);
+
+    var startOverButton = $("<button id=\"restart\">").addClass("btn").addClass("btn-dark").text("Start Over");
 
     var resultElements = [resultTitle, winResults, lossResults, unansweredResults, startOverButton];
     for (var i in resultElements){
-        quizContent.appendChild(resultElements[i]);
+        quizContent.append(resultElements[i]);
     }
+
     //Restart button is created.
-   document.querySelector("#restart").addEventListener("click", reset)
-
-}
-
-//Reset function to start the quiz over
-function reset(){
+//    document.querySelector("#restart").addEventListener("click", reset);
+   $(document).on("click", "#restart", function(){
     var resultContentsId = ["result-title", "wins", "losses", "unanswered", "restart"];
     for (var ele in resultContentsId){
-        document.querySelector("#"+resultContentsId[ele]).remove();
+        $("#"+resultContentsId[ele]).remove();
     }
 
     right = 0;
@@ -198,11 +222,35 @@ function reset(){
     qNum = 1;
     addQuestion();
 
+   })
+
 }
 
+//Reset function to start the quiz over
+// function reset(){
+//     var resultContentsId = ["result-title", "wins", "losses", "unanswered", "restart"];
+//     for (var ele in resultContentsId){
+//         document.querySelector("#"+resultContentsId[ele]).remove();
+//     }
+
+//     right = 0;
+//     wrong = 0;
+//     unanswered = 0;
+//     seconds = 30;
+//     qNum = 1;
+//     addQuestion();
+
+// }
+
 //Start of main program
-document.querySelector(".btn").addEventListener("click", function(){
-    quizContent.removeChild(document.querySelector(".btn"));
-    addQuestion();
+$(document).ready(function(){
+
+    $(".btn").on("click", function(){
+        $(this).remove();
+        addQuestion();
+    
+    })
+
 
 })
+
