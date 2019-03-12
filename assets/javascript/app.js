@@ -155,12 +155,12 @@ function displayFinalResult(){
 
     var winResults = document.createElement("p");
     winResults.setAttribute("id", "wins");
-    var winResultsText = document.createTextNode("Wins: " + right);
+    var winResultsText = document.createTextNode("Correct: " + right);
     winResults.appendChild(winResultsText);
 
     var lossResults = document.createElement("p");
     lossResults.setAttribute("id", "losses");
-    var lossResultsText = document.createTextNode("Losses: " + wrong);
+    var lossResultsText = document.createTextNode("Incorrect: " + wrong);
     lossResults.appendChild(lossResultsText);
 
     var unansweredResults = document.createElement("p");
